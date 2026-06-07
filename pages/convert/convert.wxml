@@ -1,0 +1,115 @@
+﻿<!-- pages/convert/convert.wxml - 变声转换页 -->
+<view class="page container">
+  <view class="page-header">
+    <text class="icon-title">🔄</text>
+    <text class="title">声纹变声</text>
+    <text class="subtitle">用你的声音唱出任何歌曲</text>
+  </view>
+
+  <!-- 无声明提示 -->
+  <view class="card notice-card" wx:if="{{!voiceprintReady}}">
+    <text class="notice-icon">⚠️</text>
+    <text class="notice-title">尚未录制声纹</text>
+    <text class="notice-desc">请先在"声纹"页面录制你的声音样本</text>
+    <button class="btn btn-outline mt-16" bindtap="goToVoiceprint">去录制声纹 →</button>
+  </view>
+
+  <!-- 歌曲选择区 -->
+  <view class="card song-card" wx:if="{{voiceprintReady}}">
+    <text class="section-title">🎵 选择歌曲</text>
+    
+    <!-- 已选歌曲 -->
+    <view class="song-preview" wx:if="{{songSelected}}">
+      <view class="song-info">
+        <text class="song-icon">🎶</text>
+        <view class="song-detail">
+          <text class="song-name">{{songName}}</text>
+          <text class="song-meta">{{songSizeText}}</text>
+        </view>
+        <button class="btn-clear" bindtap="clearSong">✕</button>
+      </view>
+    </view>
+
+    <!-- 选择方式 -->
+    <view class="select-options">
+      <button class="option-btn" bindtap="chooseFromAlbum">
+        <text class="option-icon">📁</text>
+        <text class="option-label">从相册选择</text>
+        <text class="option-desc">选择本地音频文件</text>
+      </button>
+      <button class="option-btn" bindtap="chooseFromChat">
+        <text class="option-icon">💬</text>
+        <text class="option-label">从聊天记录</text>
+        <text class="option-desc">选择微信聊天中的音频</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 变声参数 -->
+  <view class="card params-card" wx:if="{{voiceprintReady && songSelected}}">
+    <text class="section-title">🎛️ 变声参数</text>
+    
+    <view class="param-row">
+      <text class="param-label">音调偏移</text>
+      <view class="slider-wrap">
+        <text class="param-val">{{pitchShift >= 0 ? '+' : ''}}{{pitchShift}}</text>
+        <slider min="-12" max="12" value="{{pitchShift}}" bindchange="onSlider"
+                activeColor="#6c5ce7" backgroundColor="#dfe6e9" block-size="16" />
+      </view>
+    </view>
+
+    <view class="param-row">
+      <text class="param-label">混响强度</text>
+      <view class="slider-wrap">
+        <text class="param-val">{{reverb}}%</text>
+        <slider min="0" max="100" value="{{reverb}}" bindchange="onReverb"
+                activeColor="#6c5ce7" backgroundColor="#dfe6e9" block-size="16" />
+      </view>
+    </view>
+
+    <view class="param-row">
+      <text class="param-label">音色保真度</text>
+      <view class="slider-wrap">
+        <text class="param-val">{{fidelity}}%</text>
+        <slider min="30" max="100" value="{{fidelity}}" bindchange="onFidelity"
+                activeColor="#6c5ce7" backgroundColor="#dfe6e9" block-size="16" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 转换按钮 -->
+  <view class="convert-section" wx:if="{{voiceprintReady && songSelected}}">
+    <button class="btn btn-primary convert-btn {{converting ? 'processing' : ''}}" 
+            bindtap="startConversion"
+            disabled="{{converting}}">
+      <text wx:if="{{!converting}}">🎶 开始变声</text>
+      <text wx:else>⏳ {{convertStatus}}</text>
+    </button>
+  </view>
+
+  <!-- 转换进度 -->
+  <view class="card progress-card" wx:if="{{converting}}">
+    <view class="progress-steps">
+      <view class="step {{convertStep >= 1 ? 'done' : ''}} {{convertStep === 1 ? 'active' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">上传歌曲</text>
+      </view>
+      <view class="step-line {{convertStep >= 2 ? 'done' : ''}}"></view>
+      <view class="step {{convertStep >= 2 ? 'done' : ''}} {{convertStep === 2 ? 'active' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">声纹匹配</text>
+      </view>
+      <view class="step-line {{convertStep >= 3 ? 'done' : ''}}"></view>
+      <view class="step {{convertStep >= 3 ? 'done' : ''}} {{convertStep === 3 ? 'active' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">AI 变声</text>
+      </view>
+      <view class="step-line {{convertStep >= 4 ? 'done' : ''}}"></view>
+      <view class="step {{convertStep >= 4 ? 'done' : ''}} {{convertStep === 4 ? 'active' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">完成</text>
+      </view>
+    </view>
+    <text class="progress-note">{{convertStatus}}</text>
+  </view>
+</view>

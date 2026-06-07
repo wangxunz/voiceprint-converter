@@ -1,0 +1,65 @@
+/* app.wxss - 全局样式 */
+page {
+  background-color: #f8f7ff;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.container {
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  line-height: 1.5;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+}
+
+.btn-outline {
+  background: #fff;
+  color: #6c5ce7;
+  border: 2px solid #6c5ce7;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #e17055, #d63031);
+  color: #fff;
+}
+
+.btn-disabled {
+  background: #dfe6e9;
+  color: #b2bec3;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(108, 92, 231, 0.06);
+}
+
+.text-center { text-align: center; }
+.text-muted { color: #999; font-size: 13px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-16 { margin-bottom: 16px; }

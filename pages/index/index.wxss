@@ -1,0 +1,97 @@
+/* pages/index/index.wxss */
+.page { padding-bottom: 120px; }
+
+.page-header {
+  text-align: center;
+  padding: 30px 0 20px;
+}
+.icon-title { font-size: 48px; display: block; margin-bottom: 12px; }
+.title { font-size: 24px; font-weight: 700; color: #2d3436; display: block; }
+.subtitle { font-size: 14px; color: #999; margin-top: 6px; display: block; }
+
+/* 声纹卡片 */
+.vp-card { padding: 24px; }
+.vp-card.ready { border: 2px solid #00b894; background: #f0fff4; }
+.vp-card.empty { border: 2px dashed #dfe6e9; }
+
+.vp-ready { display: flex; align-items: center; gap: 16px; }
+.vp-avatar { width: 56px; height: 56px; border-radius: 50%; background: #00b894; display: flex; align-items: center; justify-content: center; }
+.avatar-icon { font-size: 28px; }
+.vp-info { flex: 1; }
+.vp-label { font-size: 17px; font-weight: 600; color: #00b894; display: block; }
+.vp-meta { font-size: 12px; color: #666; display: block; margin-top: 2px; }
+.btn-small-outline {
+  padding: 8px 16px; border-radius: 8px; font-size: 13px;
+  background: #fff; color: #6c5ce7; border: 1px solid #6c5ce7;
+}
+.vp-empty { text-align: center; padding: 20px 0; }
+.empty-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+.empty-text { font-size: 16px; color: #636e72; display: block; }
+.empty-hint { font-size: 13px; color: #b2bec3; margin-top: 6px; display: block; }
+
+/* 指南 */
+.guide-card { padding: 20px; }
+.guide-title { font-size: 16px; font-weight: 600; display: block; margin-bottom: 14px; }
+.guide-item { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.guide-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #6c5ce7; color: #fff; font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.guide-text { font-size: 14px; color: #555; }
+
+/* 录制区 */
+.record-section {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 30px 0;
+}
+.record-section.active { padding: 20px 0; }
+
+.timer-ring {
+  width: 140px; height: 140px; border-radius: 50%;
+  border: 4px solid #e17055; display: flex;
+  align-items: center; justify-content: center;
+  margin-bottom: 20px; animation: ringPulse 2s infinite;
+}
+@keyframes ringPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(225, 112, 85, 0.4); }
+  50% { box-shadow: 0 0 0 16px rgba(225, 112, 85, 0); }
+}
+.ring-time { font-size: 32px; font-weight: 300; color: #e17055; }
+
+.record-btn {
+  width: 220px; height: 56px; border-radius: 28px; font-size: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: #fff; box-shadow: 0 6px 20px rgba(108, 92, 231, 0.35);
+}
+.record-btn.recording {
+  background: linear-gradient(135deg, #e17055, #d63031);
+  box-shadow: 0 6px 20px rgba(225, 112, 85, 0.35);
+  animation: btnPulse 2s infinite;
+}
+@keyframes btnPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.btn-icon { font-size: 22px; }
+.record-hint { font-size: 13px; color: #999; margin-top: 14px; text-align: center; }
+.record-hint.uploading { color: #6c5ce7; font-weight: 500; }
+
+/* 上传进度 */
+.upload-progress { padding: 20px; }
+.progress-bar {
+  height: 8px; background: #dfe6e9; border-radius: 4px; overflow: hidden; margin-bottom: 10px;
+}
+.progress-fill { height: 100%; background: linear-gradient(90deg, #6c5ce7, #a29bfe); border-radius: 4px; transition: width 0.3s; }
+.progress-text { font-size: 13px; color: #6c5ce7; }
+
+/* 设置卡片 */
+.settings-card { padding: 20px; }
+.section-title { font-size: 16px; font-weight: 600; display: block; margin-bottom: 16px; }
+.setting-row { }
+.setting-label { font-size: 14px; color: #555; }
+.slider-container { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.slider-val { font-size: 18px; font-weight: 600; color: #6c5ce7; width: 40px; text-align: center; }
+slider { flex: 1; }
+.setting-hint { font-size: 12px; color: #b2bec3; margin-top: 4px; display: block; }

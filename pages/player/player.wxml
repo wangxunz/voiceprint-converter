@@ -1,0 +1,70 @@
+﻿<!-- pages/player/player.wxml - 变声结果播放器 -->
+<view class="page container">
+  <!-- 歌曲信息 -->
+  <view class="song-header">
+    <view class="disc-container {{isPlaying ? 'spinning' : ''}}">
+      <view class="disc">
+        <view class="disc-center"></view>
+        <view class="disc-groove" wx:for="{{[1,2,3,4]}}" wx:key="index"></view>
+      </view>
+    </view>
+    <text class="song-title">{{songName || '变声结果'}}</text>
+    <text class="song-meta">{{resultInfo}}</text>
+  </view>
+
+  <!-- 对比试听切换 -->
+  <view class="compare-toggle">
+    <view class="toggle-track {{compareMode ? 'active' : ''}}" bindtap="toggleCompare">
+      <view class="toggle-thumb {{compareMode ? 'active' : ''}}"></view>
+    </view>
+    <text class="toggle-label">{{compareMode ? '原唱歌声' : '你的歌声'}}</text>
+  </view>
+
+  <!-- 播放进度 -->
+  <view class="player-progress">
+    <slider value="{{currentTime}}" max="{{duration}}" 
+            bindchange="seekTo" bindchanging="onSeeking"
+            activeColor="#6c5ce7" backgroundColor="#dfe6e9"
+            block-size="18" block-color="#6c5ce7" />
+    <view class="time-row">
+      <text class="time-text">{{currentTimeText}}</text>
+      <text class="time-text">{{durationText}}</text>
+    </view>
+  </view>
+
+  <!-- 播放控制 -->
+  <view class="player-controls">
+    <button class="ctrl-btn" bindtap="prevSection">
+      <text class="ctrl-icon">⏪</text>
+      <text class="ctrl-label">后退</text>
+    </button>
+    <button class="ctrl-btn ctrl-play" bindtap="togglePlay">
+      <text class="play-icon">{{isPlaying ? '⏸' : '▶️'}}</text>
+    </button>
+    <button class="ctrl-btn" bindtap="nextSection">
+      <text class="ctrl-icon">⏩</text>
+      <text class="ctrl-label">前进</text>
+    </button>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <button class="btn btn-outline action-btn" bindtap="saveToLocal">
+      <text>💾 保存到本地</text>
+    </button>
+    <button class="btn btn-outline action-btn" bindtap="shareResult">
+      <text>📤 分享给朋友</text>
+    </button>
+    <button class="btn btn-outline action-btn" bindtap="convertAgain">
+      <text>🔄 再次变声</text>
+    </button>
+  </view>
+
+  <!-- 下载提示 -->
+  <view class="download-tip" wx:if="{{downloading}}">
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{downloadProgress}}%"></view>
+    </view>
+    <text class="tip-text">正在下载音频...</text>
+  </view>
+</view>

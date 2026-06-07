@@ -1,0 +1,46 @@
+{
+  pages: [
+    pages/index/index,
+    pages/convert/convert,
+    pages/history/history,
+    pages/player/player
+  ],
+  window: {
+    navigationBarBackgroundColor: #6c5ce7,
+    navigationBarTitleText: 声纹变声,
+    navigationBarTextStyle: white,
+    backgroundColor: #f8f7ff
+  },
+  tabBar: {
+    color: #999999,
+    selectedColor: #6c5ce7,
+    backgroundColor: #ffffff,
+    borderStyle: black,
+    list: [
+      {
+        pagePath: pages/index/index,
+        text: 声纹,
+        iconPath: images/voiceprint.png,
+        selectedIconPath: images/voiceprint-active.png
+      },
+      {
+        pagePath: pages/convert/convert,
+        text: 变声,
+        iconPath: images/convert.png,
+        selectedIconPath: images/convert-active.png
+      },
+      {
+        pagePath: pages/history/history,
+        text: 历史,
+        iconPath: images/history.png,
+        selectedIconPath: images/history-active.png
+      }
+    ]
+  },
+  permission: {
+    scope.record: {
+      desc: 用于录制您的声纹样本
+    }
+  },
+  sitemapLocation: sitemap.json
+}

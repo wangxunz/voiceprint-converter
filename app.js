@@ -1,0 +1,62 @@
+// app.js - 声纹变声小程序
+App({
+  globalData: {
+    voiceprintReady: false,
+    voiceprintId: null,
+    voiceprintDuration: 0,
+    apiBaseUrl: 'https://api.example.com/v1',
+    serverStatus: 'offline'
+  },
+
+  onLaunch() {
+    console.log('声纹变声小程序启动')
+    this.checkVoiceprint()
+    this.checkServerStatus()
+  },
+
+  // 检查是否已录制声纹
+  checkVoiceprint() {
+    const vp = wx.getStorageSync('voiceprint')
+    if (vp && vp.voiceprintId) {
+      this.globalData.voiceprintReady = true
+      this.globalData.voiceprintId = vp.voiceprintId
+      this.globalData.voiceprintDuration = vp.duration || 0
+    }
+  },
+
+  // 检查服务器状态
+  checkServerStatus() {
+    wx.request({
+      url: `${this.globalData.apiBaseUrl}/health`,
+      method: 'GET',
+      timeout: 5000,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          this.globalData.serverStatus = 'online'
+        }
+      },
+      fail: () => {
+        this.globalData.serverStatus = 'offline'
+      }
+    })
+  },
+
+  // 保存声纹信息
+  saveVoiceprint(data) {
+    this.globalData.voiceprintReady = true
+    this.globalData.voiceprintId = data.voiceprintId
+    this.globalData.voiceprintDuration = data.duration || 0
+    wx.setStorageSync('voiceprint', {
+      voiceprintId: data.voiceprintId,
+      duration: data.duration || 0,
+      createTime: Date.now()
+    })
+  },
+
+  // 清除声纹
+  clearVoiceprint() {
+    this.globalData.voiceprintReady = false
+    this.globalData.voiceprintId = null
+    wx.removeStorageSync('voiceprint')
+  }
+})

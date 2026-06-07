@@ -1,0 +1,84 @@
+/* pages/convert/convert.wxss */
+.page { padding-bottom: 100px; }
+.page-header { text-align: center; padding: 30px 0 20px; }
+.icon-title { font-size: 48px; display: block; margin-bottom: 12px; }
+.title { font-size: 24px; font-weight: 700; color: #2d3436; display: block; }
+.subtitle { font-size: 14px; color: #999; margin-top: 6px; display: block; }
+
+/* 提示卡片 */
+.notice-card {
+  text-align: center; padding: 30px 20px;
+  background: #fff8e1; border: 1px solid #ffe082;
+}
+.notice-icon { font-size: 36px; display: block; margin-bottom: 12px; }
+.notice-title { font-size: 17px; font-weight: 600; color: #f39c12; display: block; }
+.notice-desc { font-size: 13px; color: #888; margin-top: 6px; display: block; }
+
+/* 歌曲卡片 */
+.section-title { font-size: 16px; font-weight: 600; display: block; margin-bottom: 16px; }
+.song-preview { margin-bottom: 16px; }
+.song-info {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px; background: #f8f7ff; border-radius: 12px;
+}
+.song-icon { font-size: 32px; }
+.song-detail { flex: 1; }
+.song-name { font-size: 15px; font-weight: 500; display: block; color: #2d3436; }
+.song-meta { font-size: 12px; color: #999; margin-top: 2px; display: block; }
+.btn-clear {
+  background: none; border: none; font-size: 18px; color: #999; padding: 8px;
+}
+
+.select-options { display: flex; gap: 12px; }
+.option-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 20px 12px; background: #f8f7ff; border-radius: 14px;
+  border: 2px dashed #dcd6f7; text-align: center;
+}
+.option-btn:active { background: #eceaff; }
+.option-icon { font-size: 32px; display: block; margin-bottom: 8px; }
+.option-label { font-size: 14px; font-weight: 500; color: #6c5ce7; display: block; }
+.option-desc { font-size: 11px; color: #b2bec3; margin-top: 4px; display: block; }
+
+/* 参数 */
+.params-card { padding: 20px; }
+.param-row { margin-bottom: 18px; }
+.param-row:last-child { margin-bottom: 0; }
+.param-label { font-size: 14px; color: #555; display: block; margin-bottom: 6px; }
+.slider-wrap { display: flex; align-items: center; gap: 12px; }
+.param-val { font-size: 18px; font-weight: 600; color: #6c5ce7; width: 44px; text-align: center; }
+slider { flex: 1; }
+
+/* 转换按钮 */
+.convert-section { margin-top: 20px; }
+.convert-btn {
+  width: 100%; height: 56px; border-radius: 16px; font-size: 17px;
+  transition: all 0.3s;
+}
+.convert-btn.processing {
+  background: #dfe6e9; color: #636e72; box-shadow: none;
+}
+
+/* 进度 */
+.progress-card { padding: 24px; }
+.progress-steps { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.step-dot {
+  width: 16px; height: 16px; border-radius: 50%; background: #dfe6e9;
+  transition: all 0.3s;
+}
+.step.done .step-dot { background: #6c5ce7; }
+.step.active .step-dot { background: #a29bfe; box-shadow: 0 0 0 6px rgba(108, 92, 231, 0.15); animation: stepPulse 1.5s infinite; }
+@keyframes stepPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15); }
+  50% { box-shadow: 0 0 0 12px rgba(108, 92, 231, 0); }
+}
+.step-label { font-size: 11px; color: #b2bec3; }
+.step.done .step-label { color: #6c5ce7; }
+.step.active .step-label { color: #a29bfe; font-weight: 500; }
+.step-line {
+  flex: 1; height: 2px; background: #dfe6e9; margin: 0 4px; margin-bottom: 18px;
+  transition: background 0.3s;
+}
+.step-line.done { background: #6c5ce7; }
+.progress-note { font-size: 13px; color: #6c5ce7; text-align: center; display: block; }

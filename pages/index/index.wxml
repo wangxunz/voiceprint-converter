@@ -1,0 +1,97 @@
+﻿<!-- pages/index/index.wxml - 声纹录制主页 -->
+<view class="page container">
+  <!-- 头部标题 -->
+  <view class="page-header">
+    <text class="icon-title">🎤</text>
+    <text class="title">个人声纹</text>
+    <text class="subtitle">录制你的声音，AI 学习你的独特声纹</text>
+  </view>
+
+  <!-- 声纹状态卡片 -->
+  <view class="card vp-card {{voiceprintReady ? 'ready' : 'empty'}}">
+    <view wx:if="{{voiceprintReady}}" class="vp-ready">
+      <view class="vp-avatar">
+        <text class="avatar-icon">✅</text>
+      </view>
+      <view class="vp-info">
+        <text class="vp-label">声纹已就绪</text>
+        <text class="vp-meta">录制于 {{voiceprintCreateTime}}</text>
+        <text class="vp-meta">时长 {{voiceprintDuration}} 秒</text>
+      </view>
+      <button class="btn-small-outline" bindtap="reRecord">重新录制</button>
+    </view>
+
+    <view wx:else class="vp-empty">
+      <text class="empty-icon">🎙️</text>
+      <text class="empty-text">尚未录制声纹</text>
+      <text class="empty-hint">录制 30 秒以上语音以获得最佳效果</text>
+    </view>
+  </view>
+
+  <!-- 录制指南 -->
+  <view class="guide-card card" wx:if="{{!voiceprintReady}}">
+    <text class="guide-title">📋 录制指南</text>
+    <view class="guide-item">
+      <text class="guide-num">1</text>
+      <text class="guide-text">在安静环境中录制</text>
+    </view>
+    <view class="guide-item">
+      <text class="guide-num">2</text>
+      <text class="guide-text">自然语速朗读或清唱一段旋律</text>
+    </view>
+    <view class="guide-item">
+      <text class="guide-num">3</text>
+      <text class="guide-text">建议录制 30-60 秒</text>
+    </view>
+    <view class="guide-item">
+      <text class="guide-num">4</text>
+      <text class="guide-text">可多次录制，择优使用</text>
+    </view>
+  </view>
+
+  <!-- 录制控制区 -->
+  <view class="record-section {{recording ? 'active' : ''}}">
+    <view class="timer-ring" wx:if="{{recording}}">
+      <view class="ring-progress" style="--progress: {{recordProgress}}">
+        <text class="ring-time">{{recordTime}}</text>
+      </view>
+    </view>
+
+    <button class="btn record-btn {{recording ? 'recording' : ''}}" 
+            bindtap="{{recording ? 'stopRecord' : 'startRecord'}}"
+            disabled="{{uploading}}">
+      <text class="btn-icon">{{recording ? '⏹' : '🎤'}}</text>
+      <text>{{recording ? '停止录制' : (voiceprintReady ? '重新录制声纹' : '开始录制声纹')}}</text>
+    </button>
+
+    <text class="record-hint" wx:if="{{!recording && !uploading}}">
+      {{voiceprintReady ? '不满意？重新录制覆盖原声纹' : '点击按钮开始录制你的声音'}}
+    </text>
+    <text class="record-hint uploading" wx:if="{{uploading}}">
+      ⏳ 正在上传和分析声纹...
+    </text>
+  </view>
+
+  <!-- 上传进度 -->
+  <view class="upload-progress card" wx:if="{{uploading}}">
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{uploadProgress}}%"></view>
+    </view>
+    <text class="progress-text">{{uploadStatus}}</text>
+  </view>
+
+  <!-- 音调预览设置 -->
+  <view class="card settings-card" wx:if="{{voiceprintReady}}">
+    <text class="section-title">⚙️ 默认变声参数</text>
+    <view class="setting-row">
+      <text class="setting-label">音调偏移</text>
+      <view class="slider-container">
+        <text class="slider-val">{{pitchShift > 0 ? '+' : ''}}{{pitchShift}}</text>
+        <slider min="-12" max="12" value="{{pitchShift}}" 
+                bindchange="onPitchChange" block-size="18"
+                activeColor="#6c5ce7" backgroundColor="#dfe6e9" />
+      </view>
+      <text class="setting-hint">负值降低音调，正值升高</text>
+    </view>
+  </view>
+</view>

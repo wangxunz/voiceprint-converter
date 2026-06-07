@@ -1,0 +1,93 @@
+/* pages/player/player.wxss */
+.page { padding-bottom: 60px; }
+
+/* 唱片动画 */
+.song-header {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 40px 0 30px;
+}
+.disc-container {
+  width: 180px; height: 180px; margin-bottom: 24px;
+}
+.disc-container.spinning { animation: spin 8s linear infinite; }
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.disc {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: conic-gradient(from 0deg, #2d3436 0deg 30deg, #636e72 30deg 60deg, #2d3436 60deg 90deg, #636e72 90deg 120deg, #2d3436 120deg 150deg, #636e72 150deg 180deg, #2d3436 180deg 210deg, #636e72 210deg 240deg, #2d3436 240deg 270deg, #636e72 270deg 300deg, #2d3436 300deg 330deg, #636e72 330deg 360deg);
+  position: relative; box-shadow: 0 8px 32px rgba(108, 92, 231, 0.18);
+}
+.disc-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 50px; height: 50px; border-radius: 50%;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+}
+.disc-groove {
+  position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,0.08);
+  top: 50%; left: 50%;
+}
+.disc-groove:nth-child(2) { width: 120px; height: 120px; margin: -60px 0 0 -60px; }
+.disc-groove:nth-child(3) { width: 90px; height: 90px; margin: -45px 0 0 -45px; }
+.disc-groove:nth-child(4) { width: 70px; height: 70px; margin: -35px 0 0 -35px; }
+
+.song-title { font-size: 20px; font-weight: 600; color: #2d3436; }
+.song-meta { font-size: 13px; color: #999; margin-top: 6px; }
+
+/* 对比切换 */
+.compare-toggle {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin-bottom: 24px;
+}
+.toggle-track {
+  width: 50px; height: 28px; border-radius: 14px;
+  background: #dfe6e9; position: relative; transition: background 0.3s;
+}
+.toggle-track.active { background: #6c5ce7; }
+.toggle-thumb {
+  width: 22px; height: 22px; border-radius: 50%; background: #fff;
+  position: absolute; top: 3px; left: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: left 0.3s;
+}
+.toggle-thumb.active { left: 25px; }
+.toggle-label { font-size: 14px; color: #636e72; }
+
+/* 进度 */
+.player-progress { margin-bottom: 24px; }
+slider { width: 100%; }
+.time-row { display: flex; justify-content: space-between; margin-top: 4px; }
+.time-text { font-size: 12px; color: #b2bec3; }
+
+/* 控制按钮 */
+.player-controls {
+  display: flex; align-items: center; justify-content: center; gap: 30px;
+  margin-bottom: 32px;
+}
+.ctrl-btn {
+  background: none; border: none; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; padding: 8px;
+}
+.ctrl-icon { font-size: 22px; }
+.ctrl-label { font-size: 11px; color: #b2bec3; }
+.ctrl-play {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  box-shadow: 0 6px 24px rgba(108, 92, 231, 0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.play-icon { font-size: 30px; }
+
+/* 操作按钮 */
+.action-buttons { display: flex; flex-direction: column; gap: 10px; }
+.action-btn {
+  width: 100%; height: 48px; border-radius: 12px; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* 下载进度 */
+.download-tip { margin-top: 20px; }
+.progress-bar { height: 6px; background: #dfe6e9; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.progress-fill { height: 100%; background: #6c5ce7; border-radius: 3px; transition: width 0.3s; }
+.tip-text { font-size: 12px; color: #6c5ce7; text-align: center; display: block; }

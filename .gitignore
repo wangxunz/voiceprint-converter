@@ -1,0 +1,8 @@
+node_modules/
+miniprogram_npm/
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+*.log
