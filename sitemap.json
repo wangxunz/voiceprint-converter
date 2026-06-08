@@ -1,8 +1,8 @@
 {
-  rules: [
+  "rules": [
     {
-      action: allow,
-      page: *
+      "action": "allow",
+      "page": "*"
     }
   ]
 }
