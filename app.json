@@ -37,12 +37,5 @@
       }
     ]
   },
-  "sitemapLocation": "sitemap.json",
-  "requiredPrivateInfos": [
-    "getLocation",
-    "chooseAddress",
-    "chooseLocation",
-    "choosePoi",
-    "record"
-  ]
+  "sitemapLocation": "sitemap.json"
 }
