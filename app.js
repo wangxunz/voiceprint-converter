@@ -4,7 +4,7 @@ App({
     voiceprintReady: false,
     voiceprintId: null,
     voiceprintDuration: 0,
-    apiBaseUrl: 'https://wxz-sysu.cn/VoicePrint',
+    apiBaseUrl: 'http://192.168.0.159/VoicePrint',
     serverStatus: 'offline'
   },
 

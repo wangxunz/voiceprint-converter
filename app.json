@@ -7,7 +7,7 @@
   ],
   "window": {
     "navigationBarBackgroundColor": "#6c5ce7",
-    "navigationBarTitleText": "\u58f0\u7eb9\u53d8\u58f0",
+    "navigationBarTitleText": "声纹变声",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#f8f7ff"
   },
@@ -19,28 +19,30 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "\u58f0\u7eb9",
+        "text": "声纹",
         "iconPath": "images/voiceprint.png",
         "selectedIconPath": "images/voiceprint-active.png"
       },
       {
         "pagePath": "pages/convert/convert",
-        "text": "\u53d8\u58f0",
+        "text": "变声",
         "iconPath": "images/convert.png",
         "selectedIconPath": "images/convert-active.png"
       },
       {
         "pagePath": "pages/history/history",
-        "text": "\u5386\u53f2",
+        "text": "历史",
         "iconPath": "images/history.png",
         "selectedIconPath": "images/history-active.png"
       }
     ]
   },
-  "permission": {
-    "scope.record": {
-      "desc": "\u7528\u4e8e\u5f55\u5236\u60a8\u7684\u58f0\u7eb9\u6837\u672c"
-    }
-  },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseAddress",
+    "chooseLocation",
+    "choosePoi",
+    "record"
+  ]
 }
