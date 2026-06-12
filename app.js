@@ -26,18 +26,11 @@ App({
 
   // 检查服务器状态
   checkServerStatus() {
-    wx.request({
-      url: `${this.globalData.apiBaseUrl}/health`,
-      method: 'GET',
-      timeout: 5000,
-      success: (res) => {
-        if (res.statusCode === 200) {
-          this.globalData.serverStatus = 'online'
-        }
-      },
-      fail: () => {
-        this.globalData.serverStatus = 'offline'
-      }
+    const API = require('./utils/api')
+    API.health().then(res => {
+      this.globalData.serverStatus = 'online'
+    }).catch(() => {
+      this.globalData.serverStatus = 'offline'
     })
   },
 
