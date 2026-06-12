@@ -1,9 +1,14 @@
 ﻿// utils/api.js - 后端 API 接口封装 (PATH_INFO 模式)
-const app = getApp()
 
 const API = {
   // PATH_INFO 路由: baseUrl/index.php/health
-  baseUrl: (app ? app.globalData.apiBaseUrl : 'https://api.example.com/v1') + '/index.php',
+  getBaseUrl() {
+    const app = getApp()
+    const base = (app && app.globalData && app.globalData.apiBaseUrl) 
+      ? app.globalData.apiBaseUrl 
+      : 'http://192.168.0.159/VoicePrint'
+    return base + '/index.php'
+  },
 
   // 上传声纹样本
   async uploadVoiceprint(filePath, duration) {
@@ -46,7 +51,7 @@ const API = {
   _upload(url, filePath, fileKey, extraData = {}) {
     return new Promise((resolve, reject) => {
       wx.uploadFile({
-        url: `${this.baseUrl}${url}`,
+        url: `${this.getBaseUrl()}${url}`,
         filePath,
         name: fileKey,
         formData: extraData,
@@ -67,7 +72,7 @@ const API = {
   _get(url, params = {}) {
     return new Promise((resolve, reject) => {
       wx.request({
-        url: `${this.baseUrl}${url}`,
+        url: `${this.getBaseUrl()}${url}`,
         method: 'GET',
         data: params,
         timeout: 30000,
@@ -83,7 +88,7 @@ const API = {
   _post(url, data = {}) {
     return new Promise((resolve, reject) => {
       wx.request({
-        url: `${this.baseUrl}${url}`,
+        url: `${this.getBaseUrl()}${url}`,
         method: 'POST',
         data,
         timeout: 30000,

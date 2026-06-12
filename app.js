@@ -27,7 +27,7 @@ App({
   // 检查服务器状态
   checkServerStatus() {
     const API = require('./utils/api')
-    API.health().then(res => {
+    API.healthCheck().then(res => {
       this.globalData.serverStatus = 'online'
     }).catch(() => {
       this.globalData.serverStatus = 'offline'
