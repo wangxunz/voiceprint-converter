@@ -1,10 +1,11 @@
-// utils/api.js - 后端 API 接口封装
+﻿// utils/api.js - 后端 API 接口封装 (PATH_INFO 模式)
 const app = getApp()
 
 const API = {
-  baseUrl: app ? app.globalData.apiBaseUrl : 'https://api.example.com/v1',
+  // PATH_INFO 路由: baseUrl/index.php/health
+  baseUrl: (app ? app.globalData.apiBaseUrl : 'https://api.example.com/v1') + '/index.php',
 
-  // 上传声纹样本，返回 voiceprintId
+  // 上传声纹样本
   async uploadVoiceprint(filePath, duration) {
     return this._upload('/voiceprint/enroll', filePath, 'voice_sample', { duration })
   },
@@ -12,9 +13,7 @@ const API = {
   // 上传歌曲，提交变声任务
   async submitConversion(voiceprintId, songFilePath, songName, pitchShift = 0) {
     return this._upload('/conversion/submit', songFilePath, 'song_file', {
-      voiceprintId,
-      songName,
-      pitchShift
+      voiceprintId, songName, pitchShift
     })
   },
 
