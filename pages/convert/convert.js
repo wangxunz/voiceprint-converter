@@ -49,9 +49,8 @@ Page({
         this._setSong(file.tempFilePath, name, file.size, file.duration)
       },
       fail: (err) => {
-        if (err.errMsg.indexOf('cancel') === -1) {
-          wx.showToast({ title: '选择文件失败', icon: 'none' })
-        }
+        console.log('[DEBUG] chooseMedia fail:', JSON.stringify(err))
+        wx.showToast({ title: '选择失败: ' + (err.errMsg || '未知'), icon: 'none', duration: 3000 })
       }
     })
   },
