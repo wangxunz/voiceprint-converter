@@ -32,10 +32,15 @@
 
     <!-- 选择方式 -->
     <view class="select-options">
+      <button class="option-btn" bindtap="recordAsSong">
+        <text class="option-icon">🎤</text>
+        <text class="option-label">录制歌曲</text>
+        <text class="option-desc">直接录制你的演唱</text>
+      </button>
       <button class="option-btn" bindtap="chooseFromChat">
-        <text class="option-icon">🎵</text>
-        <text class="option-label">选择歌曲</text>
-        <text class="option-desc">从聊天文件或录制音频</text>
+        <text class="option-icon">📁</text>
+        <text class="option-label">从聊天文件选择</text>
+        <text class="option-desc">选择已有的音频文件（仅真机）</text>
       </button>
     </view>
   </view>

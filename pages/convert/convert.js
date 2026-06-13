@@ -26,31 +26,27 @@ Page({
 
   // 选择音频文件（从聊天文件）
   chooseFromChat() {
-    wx.showActionSheet({
-      itemList: ['从聊天文件选择', '录制音频'],
-      success: (res) => {
-        if (res.tapIndex === 0) {
-          this._pickFromChat()
-        } else {
-          this._recordSong()
-        }
-      }
-    })
+    this._pickFromChat()
+  },
+
+  // 录制音频作歌曲
+  recordAsSong() {
+    this._recordSong()
   },
 
   _pickFromChat() {
-    wx.chooseMedia({
+    wx.chooseMessageFile({
       count: 1,
-      mediaType: ['audio'],
-      sourceType: ['album', 'camera'],
+      type: 'file',
+      extension: ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg', 'wma'],
       success: (res) => {
         const file = res.tempFiles[0]
-        const name = file.tempFilePath.split('/').pop() || 'audio.mp3'
-        this._setSong(file.tempFilePath, name, file.size, file.duration)
+        this._setSong(file.path, file.name, file.size)
       },
       fail: (err) => {
-        console.log('[DEBUG] chooseMedia fail:', JSON.stringify(err))
-        wx.showToast({ title: '选择失败: ' + (err.errMsg || '未知'), icon: 'none', duration: 3000 })
+        if (err.errMsg.indexOf('cancel') !== -1) return
+        console.log('[DEBUG] chooseMessageFile fail:', JSON.stringify(err))
+        wx.showToast({ title: '聊天文件选择失败，请用录制', icon: 'none', duration: 3000 })
       }
     })
   },
