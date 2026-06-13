@@ -36,8 +36,8 @@ class VoiceprintRecorder {
 
   start(options = {}) {
     this.manager.start({
-      duration: options.duration || 60000,
-      sampleRate: options.sampleRate || 44100,
+      duration: options.duration || 30000,
+      sampleRate: options.sampleRate || 16000,
       numberOfChannels: options.channels || 1,
       encodeBitRate: options.bitRate || 192000,
       format: options.format || 'wav',
