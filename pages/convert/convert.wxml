@@ -24,7 +24,7 @@
         <text class="song-icon">🎶</text>
         <view class="song-detail">
           <text class="song-name">{{songName}}</text>
-          <text class="song-meta">{{songSizeText}}</text>
+          <text class="song-meta">{{songSizeText}}{{songDuration > 0 ? '  |  ' + songDuration + '&Prime;' : ''}}</text>
         </view>
         <button class="btn-clear" bindtap="clearSong">✕</button>
       </view>

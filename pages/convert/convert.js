@@ -9,6 +9,7 @@ Page({
     songFilePath: '',
     songName: '',
     songSizeText: '',
+    songDuration: 0,
     pitchShift: 0,
     reverb: 20,
     fidelity: 80,
@@ -38,18 +39,16 @@ Page({
   },
 
   _pickFromChat() {
-    console.log('[DEBUG] _pickFromChat called')
-    wx.chooseMessageFile({
+    wx.chooseMedia({
       count: 1,
-      type: 'file',
-      extension: ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg', 'wma'],
+      mediaType: ['audio'],
+      sourceType: ['album', 'camera'],
       success: (res) => {
-        console.log('[DEBUG] chooseMessageFile success:', JSON.stringify(res.tempFiles[0]))
         const file = res.tempFiles[0]
-        this._setSong(file.path, file.name, file.size)
+        const name = file.tempFilePath.split('/').pop() || 'audio.mp3'
+        this._setSong(file.tempFilePath, name, file.size, file.duration)
       },
       fail: (err) => {
-        console.log('[DEBUG] chooseMessageFile fail:', JSON.stringify(err))
         if (err.errMsg.indexOf('cancel') === -1) {
           wx.showToast({ title: '选择文件失败', icon: 'none' })
         }
@@ -86,8 +85,7 @@ Page({
     })
   },
 
-  _setSong(path, name, size) {
-    console.log('[DEBUG] _setSong:', path, name, size)
+  _setSong(path, name, size, duration) {
     // 限制文件大小 20MB
     if (size > 20 * 1024 * 1024) {
       wx.showToast({ title: '文件不能超过 20MB', icon: 'none' })
@@ -102,7 +100,8 @@ Page({
       songSelected: true,
       songFilePath: path,
       songName: name || '未命名音频',
-      songSizeText: sizeText
+      songSizeText: sizeText,
+      songDuration: duration || 0
     })
   },
 
@@ -111,7 +110,8 @@ Page({
       songSelected: false,
       songFilePath: '',
       songName: '',
-      songSizeText: ''
+      songSizeText: '',
+      songDuration: 0
     })
   },
 
