@@ -38,15 +38,18 @@ Page({
   },
 
   _pickFromChat() {
+    console.log('[DEBUG] _pickFromChat called')
     wx.chooseMessageFile({
       count: 1,
       type: 'file',
       extension: ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg', 'wma'],
       success: (res) => {
+        console.log('[DEBUG] chooseMessageFile success:', JSON.stringify(res.tempFiles[0]))
         const file = res.tempFiles[0]
         this._setSong(file.path, file.name, file.size)
       },
       fail: (err) => {
+        console.log('[DEBUG] chooseMessageFile fail:', JSON.stringify(err))
         if (err.errMsg.indexOf('cancel') === -1) {
           wx.showToast({ title: '选择文件失败', icon: 'none' })
         }
@@ -84,6 +87,7 @@ Page({
   },
 
   _setSong(path, name, size) {
+    console.log('[DEBUG] _setSong:', path, name, size)
     // 限制文件大小 20MB
     if (size > 20 * 1024 * 1024) {
       wx.showToast({ title: '文件不能超过 20MB', icon: 'none' })
