@@ -23,30 +23,63 @@ Page({
     this.setData({ voiceprintReady: !!(vp || app.globalData.voiceprintReady) })
   },
 
-  // 选择音频文件
-  chooseFromAlbum() {
-    wx.chooseMessageFile({
-      count: 1,
-      type: 'file',
-      extension: ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg'],
+  // 选择音频文件（从聊天文件）
+  chooseFromChat() {
+    wx.showActionSheet({
+      itemList: ['从聊天文件选择', '录制音频'],
       success: (res) => {
-        const file = res.tempFiles[0]
-        this._setSong(file.path, file.name, file.size)
-      },
-      fail: () => {}
+        if (res.tapIndex === 0) {
+          this._pickFromChat()
+        } else {
+          this._recordSong()
+        }
+      }
     })
   },
 
-  chooseFromChat() {
+  _pickFromChat() {
     wx.chooseMessageFile({
       count: 1,
       type: 'file',
-      extension: ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg'],
+      extension: ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg', 'wma'],
       success: (res) => {
         const file = res.tempFiles[0]
         this._setSong(file.path, file.name, file.size)
       },
-      fail: () => {}
+      fail: (err) => {
+        if (err.errMsg.indexOf('cancel') === -1) {
+          wx.showToast({ title: '选择文件失败', icon: 'none' })
+        }
+      }
+    })
+  },
+
+  _recordSong() {
+    const recorder = wx.getRecorderManager()
+    wx.showModal({
+      title: '录制音频',
+      content: '点击确定后开始录制，录制完成后自动作为歌曲进行变声',
+      success: (modalRes) => {
+        if (!modalRes.confirm) return
+        wx.showToast({ title: '录制中...', icon: 'none', duration: 30000 })
+        recorder.start({
+          duration: 300000,
+          sampleRate: 44100,
+          numberOfChannels: 2,
+          encodeBitRate: 320000,
+          format: 'mp3'
+        })
+        recorder.onStop((res) => {
+          wx.hideToast()
+          if (res.tempFilePath) {
+            this._setSong(res.tempFilePath, '录制_' + this._now() + '.mp3', res.fileSize || 0)
+          }
+        })
+        recorder.onError(() => {
+          wx.hideToast()
+          wx.showToast({ title: '录制失败', icon: 'error' })
+        })
+      }
     })
   },
 
@@ -169,5 +202,10 @@ Page({
     wx.switchTab({ url: '/pages/index/index' })
   },
 
-  _delay(ms) { return new Promise(r => setTimeout(r, ms)) }
+  _delay(ms) { return new Promise(r => setTimeout(r, ms)) },
+
+  _now() {
+    const d = new Date()
+    return `${d.getMonth()+1}${d.getDate()}_${d.getHours()}${d.getMinutes()}${d.getSeconds()}`
+  }
 })

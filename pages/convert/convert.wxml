@@ -32,15 +32,10 @@
 
     <!-- 选择方式 -->
     <view class="select-options">
-      <button class="option-btn" bindtap="chooseFromAlbum">
-        <text class="option-icon">📁</text>
-        <text class="option-label">从相册选择</text>
-        <text class="option-desc">选择本地音频文件</text>
-      </button>
       <button class="option-btn" bindtap="chooseFromChat">
-        <text class="option-icon">💬</text>
-        <text class="option-label">从聊天记录</text>
-        <text class="option-desc">选择微信聊天中的音频</text>
+        <text class="option-icon">🎵</text>
+        <text class="option-label">选择歌曲</text>
+        <text class="option-desc">从聊天文件或录制音频</text>
       </button>
     </view>
   </view>
