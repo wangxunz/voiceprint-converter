@@ -57,11 +57,16 @@ const API = {
         formData: extraData,
         success: (res) => {
           try {
-            const data = JSON.parse(res.data)
+            // 处理 BOM + 其他非法 JSON 前缀
+            let text = res.data
+            if (typeof text === 'string') {
+              text = text.replace(/^\uFEFF+/, '').trim()
+            }
+            const data = JSON.parse(text)
             if (data.code === 0) resolve(data.data)
             else reject(data)
           } catch (e) {
-            reject({ code: -1, message: '解析响应失败' })
+            reject({ code: -1, message: '解析响应失败', raw: (res.data || '').substring(0, 200) })
           }
         },
         fail: reject
