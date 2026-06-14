@@ -15,7 +15,27 @@ Page({
     fidelity: 80,
     converting: false,
     convertStep: 0,
-    convertStatus: ''
+    convertStatus: '',
+    recording: false
+  },
+
+  onLoad() {
+    this._recorder = wx.getRecorderManager()
+    this._recorder.onStop((res) => {
+      this.setData({ recording: false })
+      if (res.tempFilePath) {
+        const size = res.fileSize || 0
+        const duration = res.duration ? Math.floor(res.duration / 1000) : 0
+        this._setSong(res.tempFilePath, '录制_' + this._now() + '.mp3', size, duration)
+      } else {
+        wx.showToast({ title: '录制失败：未获取到音频', icon: 'error' })
+      }
+    })
+    this._recorder.onError((err) => {
+      console.error('录制错误:', err)
+      this.setData({ recording: false })
+      wx.showToast({ title: '录制失败', icon: 'error' })
+    })
   },
 
   onShow() {
@@ -24,64 +44,48 @@ Page({
     this.setData({ voiceprintReady: !!(vp || app.globalData.voiceprintReady) })
   },
 
-  // 选择音频文件（从聊天文件）
-  chooseFromChat() {
-    this._pickFromChat()
-  },
-
-  // 录制音频作歌曲
+  // 开始录制
   recordAsSong() {
-    this._recordSong()
+    this.setData({ recording: true })
+    this._recorder.start({
+      duration: 300000,
+      sampleRate: 44100,
+      numberOfChannels: 2,
+      encodeBitRate: 320000,
+      format: 'mp3'
+    })
   },
 
-  _pickFromChat() {
+  // 停止录制
+  stopRecordSong() {
+    this._recorder.stop()
+  },
+
+  // 从聊天/本地选择音频
+  chooseFromChat() {
     wx.chooseMessageFile({
       count: 1,
-      type: 'file',
-      extension: ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg', 'wma'],
+      type: 'all',
       success: (res) => {
         const file = res.tempFiles[0]
+        // type: 'all' 可能选到非音频文件，校验扩展名
+        const ext = (file.name || '').split('.').pop().toLowerCase()
+        const audioExts = ['mp3', 'wav', 'm4a', 'aac', 'flac', 'ogg', 'wma', 'mp4', 'opus']
+        if (!audioExts.includes(ext)) {
+          wx.showToast({ title: '请选择音频文件（mp3/wav/m4a 等）', icon: 'none', duration: 2500 })
+          return
+        }
         this._setSong(file.path, file.name, file.size)
       },
       fail: (err) => {
         if (err.errMsg.indexOf('cancel') !== -1) return
         console.log('[DEBUG] chooseMessageFile fail:', JSON.stringify(err))
-        wx.showToast({ title: '聊天文件选择失败，请用录制', icon: 'none', duration: 3000 })
-      }
-    })
-  },
-
-  _recordSong() {
-    const recorder = wx.getRecorderManager()
-    wx.showModal({
-      title: '录制音频',
-      content: '点击确定后开始录制，录制完成后自动作为歌曲进行变声',
-      success: (modalRes) => {
-        if (!modalRes.confirm) return
-        wx.showToast({ title: '录制中...', icon: 'none', duration: 30000 })
-        recorder.start({
-          duration: 300000,
-          sampleRate: 44100,
-          numberOfChannels: 2,
-          encodeBitRate: 320000,
-          format: 'mp3'
-        })
-        recorder.onStop((res) => {
-          wx.hideToast()
-          if (res.tempFilePath) {
-            this._setSong(res.tempFilePath, '录制_' + this._now() + '.mp3', res.fileSize || 0)
-          }
-        })
-        recorder.onError(() => {
-          wx.hideToast()
-          wx.showToast({ title: '录制失败', icon: 'error' })
-        })
+        wx.showToast({ title: '选择失败，请用录制', icon: 'none', duration: 3000 })
       }
     })
   },
 
   _setSong(path, name, size, duration) {
-    // 限制文件大小 20MB
     if (size > 20 * 1024 * 1024) {
       wx.showToast({ title: '文件不能超过 20MB', icon: 'none' })
       return
@@ -122,6 +126,11 @@ Page({
     
     if (!voiceprintId) {
       wx.showToast({ title: '请先录制声纹', icon: 'none' })
+      return
+    }
+
+    if (!this.data.songSelected || !this.data.songFilePath) {
+      wx.showToast({ title: '请先选择歌曲', icon: 'none' })
       return
     }
 

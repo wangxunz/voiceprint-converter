@@ -82,3 +82,20 @@ slider { flex: 1; }
 }
 .step-line.done { background: #6c5ce7; }
 .progress-note { font-size: 13px; color: #6c5ce7; text-align: center; display: block; }
+
+/* 录制状态 */
+.recording-status {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 0; margin-bottom: 8px;
+}
+.recording-dot { font-size: 16px; animation: blink 1s infinite; }
+.recording-text { font-size: 14px; color: #e17055; font-weight: 500; }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.stop-btn {
+  border-color: #e17055 !important;
+  background: #fff5f3 !important;
+}
+.stop-btn .option-label { color: #e17055 !important; }

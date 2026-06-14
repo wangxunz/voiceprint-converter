@@ -1,4 +1,4 @@
-﻿<!-- pages/convert/convert.wxml - 变声转换页 -->
+<!-- pages/convert/convert.wxml - 变声转换页 -->
 <view class="page container">
   <view class="page-header">
     <text class="icon-title">🔄</text>
@@ -24,7 +24,7 @@
         <text class="song-icon">🎶</text>
         <view class="song-detail">
           <text class="song-name">{{songName}}</text>
-          <text class="song-meta">{{songSizeText}}{{songDuration > 0 ? '  |  ' + songDuration + '&Prime;' : ''}}</text>
+          <text class="song-meta">{{songSizeText}}{{songDuration > 0 ? '  |  ' + songDuration + '"' : ''}}</text>
         </view>
         <button class="btn-clear" bindtap="clearSong">✕</button>
       </view>
@@ -32,16 +32,31 @@
 
     <!-- 选择方式 -->
     <view class="select-options">
-      <button class="option-btn" bindtap="recordAsSong">
-        <text class="option-icon">🎤</text>
-        <text class="option-label">录制歌曲</text>
-        <text class="option-desc">直接录制你的演唱</text>
-      </button>
-      <button class="option-btn" bindtap="chooseFromChat">
-        <text class="option-icon">📁</text>
-        <text class="option-label">从聊天文件选择</text>
-        <text class="option-desc">选择已有的音频文件（仅真机）</text>
-      </button>
+      <!-- 录制中 -->
+      <block wx:if="{{recording}}">
+        <view class="recording-status">
+          <text class="recording-dot">🔴</text>
+          <text class="recording-text">正在录制...</text>
+        </view>
+        <button class="option-btn stop-btn" bindtap="stopRecordSong">
+          <text class="option-icon">⏹️</text>
+          <text class="option-label">停止录制</text>
+          <text class="option-desc">点击停止完成录制</text>
+        </button>
+      </block>
+      <!-- 未录制 -->
+      <block wx:else>
+        <button class="option-btn" bindtap="recordAsSong">
+          <text class="option-icon">🎤</text>
+          <text class="option-label">录制歌曲</text>
+          <text class="option-desc">直接录制你的演唱</text>
+        </button>
+        <button class="option-btn" bindtap="chooseFromChat">
+          <text class="option-icon">📁</text>
+          <text class="option-label">从文件选择</text>
+          <text class="option-desc">选择已有的音频文件</text>
+        </button>
+      </block>
     </view>
   </view>
 
